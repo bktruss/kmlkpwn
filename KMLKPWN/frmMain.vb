@@ -31,26 +31,6 @@ Public Class frmMain
         If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
         '# open
         If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
-
-        'lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
-        'lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & Count("[WEP]", "Placemark", "description", dsXML)
-        'Dim i As Integer
-        'i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-        'i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
-        'i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
-        'lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i
-
-        'i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-        'i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
-        'i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
-        'i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
-        'lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i
-
-        'i = Count("[IBSS]", "Placemark", "description", dsXML)
-        'lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i
-        ''# bind to grid
-        'dg.DataMember = "Placemark"
-        'dg.DataSource = dsXML
         DrawStats()
         DrawGrid()
     End Sub
@@ -77,6 +57,7 @@ Public Class frmMain
     End Sub
     Sub DrawGrid()
         On Error Resume Next
+        dg.Columns(0).Width = 180
         dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
         dg.Columns(2).Visible = False
         On Error GoTo 0
@@ -91,7 +72,7 @@ Public Class frmMain
         Next
         Return iCount
     End Function
-    Function RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+    Sub RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
         Dim rc As New Collection
         For Each r As DataRow In ds.Tables(sTable).Rows
             If InStr(r(sColumn).ToString, sSearch) > 0 Then
@@ -102,8 +83,7 @@ Public Class frmMain
             r.Delete()
         Next
         ds.Tables(sTable).AcceptChanges()
-        Return 0
-    End Function
+    End Sub
 
     Private Sub KML_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         gbFilter.Enabled = False
@@ -141,5 +121,9 @@ Public Class frmMain
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         DrawGrid()
+    End Sub
+
+    Private Sub lblStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblStats.Click
+
     End Sub
 End Class
