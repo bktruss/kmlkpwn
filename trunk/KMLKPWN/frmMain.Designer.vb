@@ -35,9 +35,10 @@ Partial Class frmMain
         Me.btnSave = New System.Windows.Forms.Button()
         Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
         Me.gbAP = New System.Windows.Forms.GroupBox()
+        Me.lblAPContains = New System.Windows.Forms.Label()
         Me.btnApRemove = New System.Windows.Forms.Button()
         Me.txtAPName = New System.Windows.Forms.TextBox()
-        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblStats = New System.Windows.Forms.Label()
         Me.gbFilter.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAP.SuspendLayout()
@@ -48,7 +49,7 @@ Partial Class frmMain
         Me.cbIBSS.AutoSize = True
         Me.cbIBSS.Checked = True
         Me.cbIBSS.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbIBSS.Location = New System.Drawing.Point(6, 88)
+        Me.cbIBSS.Location = New System.Drawing.Point(6, 116)
         Me.cbIBSS.Name = "cbIBSS"
         Me.cbIBSS.Size = New System.Drawing.Size(50, 17)
         Me.cbIBSS.TabIndex = 7
@@ -60,7 +61,7 @@ Partial Class frmMain
         Me.cbOPEN.AutoSize = True
         Me.cbOPEN.Checked = True
         Me.cbOPEN.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbOPEN.Location = New System.Drawing.Point(7, 111)
+        Me.cbOPEN.Location = New System.Drawing.Point(6, 19)
         Me.cbOPEN.Name = "cbOPEN"
         Me.cbOPEN.Size = New System.Drawing.Size(52, 17)
         Me.cbOPEN.TabIndex = 6
@@ -70,7 +71,7 @@ Partial Class frmMain
         'btnLoad
         '
         Me.btnLoad.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnLoad.Location = New System.Drawing.Point(533, 12)
+        Me.btnLoad.Location = New System.Drawing.Point(642, 12)
         Me.btnLoad.Name = "btnLoad"
         Me.btnLoad.Size = New System.Drawing.Size(109, 23)
         Me.btnLoad.TabIndex = 5
@@ -82,7 +83,7 @@ Partial Class frmMain
         Me.cbWPA2.AutoSize = True
         Me.cbWPA2.Checked = True
         Me.cbWPA2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWPA2.Location = New System.Drawing.Point(7, 65)
+        Me.cbWPA2.Location = New System.Drawing.Point(6, 93)
         Me.cbWPA2.Name = "cbWPA2"
         Me.cbWPA2.Size = New System.Drawing.Size(57, 17)
         Me.cbWPA2.TabIndex = 5
@@ -94,7 +95,7 @@ Partial Class frmMain
         Me.cbWPA.AutoSize = True
         Me.cbWPA.Checked = True
         Me.cbWPA.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWPA.Location = New System.Drawing.Point(7, 42)
+        Me.cbWPA.Location = New System.Drawing.Point(6, 65)
         Me.cbWPA.Name = "cbWPA"
         Me.cbWPA.Size = New System.Drawing.Size(51, 17)
         Me.cbWPA.TabIndex = 4
@@ -109,9 +110,9 @@ Partial Class frmMain
         Me.gbFilter.Controls.Add(Me.cbWPA2)
         Me.gbFilter.Controls.Add(Me.cbWPA)
         Me.gbFilter.Controls.Add(Me.cbWEP)
-        Me.gbFilter.Location = New System.Drawing.Point(533, 70)
+        Me.gbFilter.Location = New System.Drawing.Point(642, 70)
         Me.gbFilter.Name = "gbFilter"
-        Me.gbFilter.Size = New System.Drawing.Size(109, 134)
+        Me.gbFilter.Size = New System.Drawing.Size(109, 139)
         Me.gbFilter.TabIndex = 6
         Me.gbFilter.TabStop = False
         Me.gbFilter.Text = "Filter options"
@@ -121,7 +122,7 @@ Partial Class frmMain
         Me.cbWEP.AutoSize = True
         Me.cbWEP.Checked = True
         Me.cbWEP.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWEP.Location = New System.Drawing.Point(6, 19)
+        Me.cbWEP.Location = New System.Drawing.Point(6, 42)
         Me.cbWEP.Name = "cbWEP"
         Me.cbWEP.Size = New System.Drawing.Size(51, 17)
         Me.cbWEP.TabIndex = 3
@@ -136,7 +137,7 @@ Partial Class frmMain
         Me.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dg.Location = New System.Drawing.Point(12, 12)
         Me.dg.Name = "dg"
-        Me.dg.Size = New System.Drawing.Size(515, 473)
+        Me.dg.Size = New System.Drawing.Size(624, 473)
         Me.dg.TabIndex = 4
         '
         'OpenFileDialog1
@@ -146,7 +147,7 @@ Partial Class frmMain
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(533, 41)
+        Me.btnSave.Location = New System.Drawing.Point(642, 41)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(109, 23)
         Me.btnSave.TabIndex = 7
@@ -156,15 +157,24 @@ Partial Class frmMain
         'gbAP
         '
         Me.gbAP.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gbAP.Controls.Add(Me.Label1)
+        Me.gbAP.Controls.Add(Me.lblAPContains)
         Me.gbAP.Controls.Add(Me.btnApRemove)
         Me.gbAP.Controls.Add(Me.txtAPName)
-        Me.gbAP.Location = New System.Drawing.Point(533, 210)
+        Me.gbAP.Location = New System.Drawing.Point(642, 215)
         Me.gbAP.Name = "gbAP"
         Me.gbAP.Size = New System.Drawing.Size(109, 89)
         Me.gbAP.TabIndex = 8
         Me.gbAP.TabStop = False
         Me.gbAP.Text = "APNAME"
+        '
+        'lblAPContains
+        '
+        Me.lblAPContains.AutoSize = True
+        Me.lblAPContains.Location = New System.Drawing.Point(3, 16)
+        Me.lblAPContains.Name = "lblAPContains"
+        Me.lblAPContains.Size = New System.Drawing.Size(85, 13)
+        Me.lblAPContains.TabIndex = 2
+        Me.lblAPContains.Text = "Contains string..."
         '
         'btnApRemove
         '
@@ -182,20 +192,21 @@ Partial Class frmMain
         Me.txtAPName.Size = New System.Drawing.Size(97, 20)
         Me.txtAPName.TabIndex = 0
         '
-        'Label1
+        'lblStats
         '
-        Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(3, 16)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(85, 13)
-        Me.Label1.TabIndex = 2
-        Me.Label1.Text = "Contains string..."
+        Me.lblStats.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblStats.Location = New System.Drawing.Point(642, 307)
+        Me.lblStats.Name = "lblStats"
+        Me.lblStats.Size = New System.Drawing.Size(109, 178)
+        Me.lblStats.TabIndex = 9
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(654, 497)
+        Me.ClientSize = New System.Drawing.Size(763, 497)
+        Me.Controls.Add(Me.lblStats)
         Me.Controls.Add(Me.gbAP)
         Me.Controls.Add(Me.btnSave)
         Me.Controls.Add(Me.btnLoad)
@@ -226,5 +237,6 @@ Partial Class frmMain
     Friend WithEvents gbAP As System.Windows.Forms.GroupBox
     Friend WithEvents btnApRemove As System.Windows.Forms.Button
     Friend WithEvents txtAPName As System.Windows.Forms.TextBox
-    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents lblAPContains As System.Windows.Forms.Label
+    Friend WithEvents lblStats As System.Windows.Forms.Label
 End Class
