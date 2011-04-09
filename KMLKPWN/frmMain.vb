@@ -35,22 +35,28 @@ Public Class frmMain
         DrawGrid()
     End Sub
     Sub DrawStats()
-        lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
-        lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & Count("[WEP]", "Placemark", "description", dsXML)
         Dim i As Integer
+        lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
+
+        i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
+        lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+
+        i = Count("[WEP]", "Placemark", "description", dsXML)
+        lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+
         i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
         i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i
+        lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
         i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
         i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
         i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i
+        lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
         i = Count("[IBSS]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i
+        lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
         '# bind to grid
         dg.DataMember = "Placemark"
         dg.DataSource = dsXML
@@ -121,9 +127,5 @@ Public Class frmMain
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         DrawGrid()
-    End Sub
-
-    Private Sub lblStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblStats.Click
-
     End Sub
 End Class
