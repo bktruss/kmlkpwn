@@ -131,12 +131,25 @@ Partial Class frmMain
         '
         'dg
         '
+        Me.dg.AllowUserToAddRows = False
+        Me.dg.AllowUserToDeleteRows = False
+        Me.dg.AllowUserToOrderColumns = True
+        Me.dg.AllowUserToResizeColumns = False
+        Me.dg.AllowUserToResizeRows = False
         Me.dg.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dg.Location = New System.Drawing.Point(12, 12)
+        Me.dg.MultiSelect = False
         Me.dg.Name = "dg"
+        Me.dg.ReadOnly = True
+        Me.dg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dg.ShowCellErrors = False
+        Me.dg.ShowCellToolTips = False
+        Me.dg.ShowEditingIcon = False
+        Me.dg.ShowRowErrors = False
         Me.dg.Size = New System.Drawing.Size(624, 473)
         Me.dg.TabIndex = 4
         '
