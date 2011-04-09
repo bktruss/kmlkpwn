@@ -11,12 +11,9 @@ Public Class frmMain
 
     End Sub
     Sub LoadFile()
-        cbWPA.Enabled = True
-        cbWPA2.Enabled = True
-        cbWEP.Enabled = True
-        cbOPEN.Enabled = True
-        cbIBSS.Enabled = True
-        btnApRemove.Enabled = True
+        gbFilter.Enabled = True
+        gbAP.Enabled = True
+
 
 
         'Try
@@ -45,8 +42,15 @@ Public Class frmMain
         '# bind to grid
         dg.DataMember = "Placemark"
         dg.DataSource = dsXML
+        'dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
+        'dg.Columns(2).Visible = False
+        DrawGrid()
+    End Sub
+    Sub DrawGrid()
+        On Error Resume Next
         dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
         dg.Columns(2).Visible = False
+        On Error GoTo 0
     End Sub
     Function RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
 
@@ -64,48 +68,35 @@ Public Class frmMain
         ds.Tables(sTable).AcceptChanges()
         Return 0
     End Function
-    'Private Sub btnApplyFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApplyFilter.Click
-    'LoadFile()
-    'End Sub
-
     Private Sub KML_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'btnApplyFilter.Enabled = False
-        cbWPA.Enabled = False
-        cbWPA2.Enabled = False
-        cbWEP.Enabled = False
-        cbOPEN.Enabled = False
-        cbIBSS.Enabled = False
-        btnApRemove.Enabled = False
+        gbFilter.Enabled = False
+        gbAP.Enabled = False
     End Sub
-
     Private Sub cbWEP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWEP.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-
     Private Sub cbWPA_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWPA.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-
     Private Sub cbWPA2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWPA2.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-
     Private Sub cbIBSS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbIBSS.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-
     Private Sub cbOPEN_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbOPEN.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveFileDialog1.AddExtension = True
         SaveFileDialog1.Filter = "KML files (*.kml)|*.kml"
         If SaveFileDialog1.ShowDialog() <> Windows.Forms.DialogResult.Cancel Then dsXML.WriteXml(SaveFileDialog1.FileName)
     End Sub
-
     Private Sub btnApRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApRemove.Click
         'If OpenFileDialog1.FileName <> "" Then LoadFile()
         If txtAPName.Text <> "" Then RemoveRecords(txtAPName.Text, "Placemark", "name", dsXML)
+    End Sub
+    Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+        DrawGrid()
     End Sub
 End Class
