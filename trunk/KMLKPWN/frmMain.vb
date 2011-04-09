@@ -62,7 +62,7 @@ Public Class frmMain
             r.Delete()
         Next
         ds.Tables(sTable).AcceptChanges()
-
+        Return 0
     End Function
     'Private Sub btnApplyFilter_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApplyFilter.Click
     'LoadFile()
