@@ -8,18 +8,12 @@ Public Class frmMain
         OpenFileDialog1.ShowDialog()
 
         If Dir(OpenFileDialog1.FileName) <> "" Then LoadFile() Else MessageBox.Show("Check file exists.")
-
     End Sub
     Sub LoadFile()
+
         gbFilter.Enabled = True
         gbAP.Enabled = True
 
-
-
-        'Try
-
-        'If Dir(OpenFileDialog1.FileName) <> "" Then
-        'btnApplyFilter.Enabled = True
         dsXML.Clear()
         dsXML.ReadXml(OpenFileDialog1.FileName)
         '# wep
@@ -38,13 +32,48 @@ Public Class frmMain
         '# open
         If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
 
-        If txtAPName.Text <> "" Then RemoveRecords(txtAPName.Text, "Placemark", "name", dsXML)
+        'lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
+        'lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & Count("[WEP]", "Placemark", "description", dsXML)
+        'Dim i As Integer
+        'i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+        'i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+        'i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
+        'lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i
+
+        'i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+        'i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
+        'i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
+        'i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+        'lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i
+
+        'i = Count("[IBSS]", "Placemark", "description", dsXML)
+        'lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i
+        ''# bind to grid
+        'dg.DataMember = "Placemark"
+        'dg.DataSource = dsXML
+        DrawStats()
+        DrawGrid()
+    End Sub
+    Sub DrawStats()
+        lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
+        lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & Count("[WEP]", "Placemark", "description", dsXML)
+        Dim i As Integer
+        i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+        i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+        i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
+        lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i
+
+        i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+        i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
+        i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
+        i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+        lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i
+
+        i = Count("[IBSS]", "Placemark", "description", dsXML)
+        lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i
         '# bind to grid
         dg.DataMember = "Placemark"
         dg.DataSource = dsXML
-        'dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
-        'dg.Columns(2).Visible = False
-        DrawGrid()
     End Sub
     Sub DrawGrid()
         On Error Resume Next
@@ -52,15 +81,22 @@ Public Class frmMain
         dg.Columns(2).Visible = False
         On Error GoTo 0
     End Sub
-    Function RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
-
-        Dim rc As New Collection '= dsXML.Tables("Placemark").Rows
+    Function Count(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+        Dim iCount As Integer = 0
+        Dim rc As New Collection
         For Each r As DataRow In ds.Tables(sTable).Rows
-            'If Not cbWEP.Checked Then
+            If InStr(r(sColumn).ToString, sSearch) > 0 Then
+                iCount = iCount + 1
+            End If
+        Next
+        Return iCount
+    End Function
+    Function RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+        Dim rc As New Collection
+        For Each r As DataRow In ds.Tables(sTable).Rows
             If InStr(r(sColumn).ToString, sSearch) > 0 Then
                 rc.Add(r)
             End If
-            'End If
         Next
         For Each r As DataRow In rc
             r.Delete()
@@ -68,9 +104,15 @@ Public Class frmMain
         ds.Tables(sTable).AcceptChanges()
         Return 0
     End Function
+
     Private Sub KML_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         gbFilter.Enabled = False
         gbAP.Enabled = False
+        cbOPEN.ForeColor = Color.Green
+        cbWEP.ForeColor = Color.GreenYellow
+        cbWPA.ForeColor = Color.Orange
+        cbWPA2.ForeColor = Color.Red
+        cbIBSS.ForeColor = Color.DarkRed
     End Sub
     Private Sub cbWEP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWEP.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
@@ -93,8 +135,9 @@ Public Class frmMain
         If SaveFileDialog1.ShowDialog() <> Windows.Forms.DialogResult.Cancel Then dsXML.WriteXml(SaveFileDialog1.FileName)
     End Sub
     Private Sub btnApRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApRemove.Click
-        'If OpenFileDialog1.FileName <> "" Then LoadFile()
         If txtAPName.Text <> "" Then RemoveRecords(txtAPName.Text, "Placemark", "name", dsXML)
+        DrawStats()
+        DrawGrid()
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
         DrawGrid()
