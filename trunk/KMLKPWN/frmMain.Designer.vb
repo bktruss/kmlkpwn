@@ -75,7 +75,7 @@ Partial Class frmMain
         Me.btnLoad.Name = "btnLoad"
         Me.btnLoad.Size = New System.Drawing.Size(109, 23)
         Me.btnLoad.TabIndex = 5
-        Me.btnLoad.Text = "Load file"
+        Me.btnLoad.Text = "&Load file"
         Me.btnLoad.UseVisualStyleBackColor = True
         '
         'cbWPA2
@@ -164,7 +164,7 @@ Partial Class frmMain
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(109, 23)
         Me.btnSave.TabIndex = 7
-        Me.btnSave.Text = "Save file"
+        Me.btnSave.Text = "&Save file as"
         Me.btnSave.UseVisualStyleBackColor = True
         '
         'gbAP
@@ -195,7 +195,7 @@ Partial Class frmMain
         Me.btnApRemove.Name = "btnApRemove"
         Me.btnApRemove.Size = New System.Drawing.Size(97, 23)
         Me.btnApRemove.TabIndex = 1
-        Me.btnApRemove.Text = "Remove"
+        Me.btnApRemove.Text = "&Remove"
         Me.btnApRemove.UseVisualStyleBackColor = True
         '
         'txtAPName
