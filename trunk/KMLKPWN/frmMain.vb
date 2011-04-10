@@ -13,6 +13,7 @@ Public Class frmMain
 
         gbFilter.Enabled = True
         gbAP.Enabled = True
+        gbTop1000.Enabled = True
 
         dsXML.Clear()
         dsXML.ReadXml(OpenFileDialog1.FileName)
@@ -107,6 +108,7 @@ Public Class frmMain
     Private Sub KML_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         gbFilter.Enabled = False
         gbAP.Enabled = False
+        gbTop1000.Enabled = False
         cbOPEN.ForeColor = Color.Green
         cbWEP.ForeColor = Color.GreenYellow
         cbWPA.ForeColor = Color.Orange
@@ -143,14 +145,55 @@ Public Class frmMain
     End Sub
 
     Private Sub btnTopSSIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTopSSIDs.Click
+        'Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
+        'Dim TextLines() As String = My.Resources.SSID.Split(Environment.NewLine.ToCharArray, System.StringSplitOptions.RemoveEmptyEntries)
+        'Dim rc As New Collection
+        'If IsNothing(dsXML) Then Exit Sub
+        'For Each r As DataRow In dsXML.Tables("Placemark").Rows
+        '    Dim bFound As Boolean = False
+        '    For i As Integer = 0 To UBound(TextLines)
+        '        'If InStr(r("name"), TextLines(i)) > 0 Then
+        '        '    bFound = True
+        '        '    Exit For
+        '        'End If
+        '        If r("name").trim = TextLines(i).Trim Then
+        '            bFound = True
+        '            Exit For
+        '        End If
+        '    Next
+        '    If Not bFound Then
+        '        rc.Add(r)
+        '    End If
+        '    bFound = False
+        'Next
+
+        'For Each r As DataRow In rc
+        '    r.Delete()
+        'Next
+        'dsXML.Tables("Placemark").AcceptChanges()
+        'DrawStats()
+        'DrawGrid()
+        'Me.Cursor = System.Windows.Forms.Cursors.Default
+        FilterSSIDs(True)
+    End Sub
+    Sub FilterSSIDs(ByVal bSpecific As Boolean)
+        Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
         Dim TextLines() As String = My.Resources.SSID.Split(Environment.NewLine.ToCharArray, System.StringSplitOptions.RemoveEmptyEntries)
         Dim rc As New Collection
+        If IsNothing(dsXML) Then Exit Sub
         For Each r As DataRow In dsXML.Tables("Placemark").Rows
             Dim bFound As Boolean = False
             For i As Integer = 0 To UBound(TextLines)
-                If InStr(r("name"), TextLines(i)) > 0 Then
-                    bFound = True
-                    Exit For
+                If bSpecific Then
+                    If r("name").trim = TextLines(i).Trim Then
+                        bFound = True
+                        Exit For
+                    End If
+                Else
+                    If InStr(r("name"), TextLines(i)) > 0 Then
+                        bFound = True
+                        Exit For
+                    End If
                 End If
             Next
             If Not bFound Then
@@ -158,12 +201,16 @@ Public Class frmMain
             End If
             bFound = False
         Next
-        
+
         For Each r As DataRow In rc
             r.Delete()
         Next
         dsXML.Tables("Placemark").AcceptChanges()
         DrawStats()
         DrawGrid()
+        Me.Cursor = System.Windows.Forms.Cursors.Default
+    End Sub
+    Private Sub btnSSIDnonspecific_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSSIDnonspecific.Click
+        FilterSSIDs(False)
     End Sub
 End Class
