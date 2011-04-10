@@ -76,8 +76,8 @@ Public Class frmMain
     Sub DrawGrid()
         On Error Resume Next
         dg.Columns(0).Width = 180
-        dg.Columns(1).HeaderText = "SSID"
-        dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
+        dg.Columns(0).HeaderText = "SSID"
+        dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 20)
         dg.Columns(1).HeaderText = "Description"
         dg.Columns(2).Visible = False
         On Error GoTo 0
@@ -205,14 +205,9 @@ Public Class frmMain
     Sub UpdateHtml()
         Dim r1 As DataRow
         Dim r2 As DataRow
-
+        If dg.CurrentRow.Index < 0 Then Exit Sub
         r1 = dsXML.Tables("Placemark").Rows(dg.CurrentRow.Index)
         r2 = dsXML.Tables("point").Rows(dg.CurrentRow.Index)
-
         wbDescription.DocumentText = r1("description") & "<br>Location : <b>" & r2("coordinates") & "</b>"
-        '"<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.co.uk/maps?hl=en&amp;ie=UTF8&amp;ll=" & r2("coordinates") & "&amp;spn=0.168923,0.308647&amp;z=12&amp;output=embed'></iframe>"
-
-        'Mid(r2("coordinates"),InStr(r2("coordinates"),"Location :"
-        '"<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.co.uk/maps?hl=en&amp;ie=UTF8&amp;ll=" & r2("coordinates") & "&amp;spn=0.168923,0.308647&amp;z=12&amp;output=embed'></iframe>"
     End Sub
 End Class
