@@ -149,6 +149,7 @@ Partial Class frmMain
         Me.dg.MultiSelect = False
         Me.dg.Name = "dg"
         Me.dg.ReadOnly = True
+        Me.dg.RowHeadersVisible = False
         Me.dg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dg.ShowCellErrors = False
@@ -183,7 +184,7 @@ Partial Class frmMain
         Me.gbAP.Size = New System.Drawing.Size(109, 89)
         Me.gbAP.TabIndex = 8
         Me.gbAP.TabStop = False
-        Me.gbAP.Text = "APNAME"
+        Me.gbAP.Text = "SSID"
         '
         'lblAPContains
         '
@@ -274,7 +275,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.dg)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
-        Me.Text = "KML-Kpwn"
+        Me.Text = "KMLkpwn"
         Me.gbFilter.ResumeLayout(False)
         Me.gbFilter.PerformLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).EndInit()
