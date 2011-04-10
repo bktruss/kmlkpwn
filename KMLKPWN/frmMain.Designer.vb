@@ -42,6 +42,7 @@ Partial Class frmMain
         Me.gbTop1000 = New System.Windows.Forms.GroupBox()
         Me.btnSSIDnonspecific = New System.Windows.Forms.Button()
         Me.btnTopSSIDs = New System.Windows.Forms.Button()
+        Me.wbDescription = New System.Windows.Forms.WebBrowser()
         Me.gbFilter.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAP.SuspendLayout()
@@ -154,7 +155,7 @@ Partial Class frmMain
         Me.dg.ShowCellToolTips = False
         Me.dg.ShowEditingIcon = False
         Me.dg.ShowRowErrors = False
-        Me.dg.Size = New System.Drawing.Size(624, 465)
+        Me.dg.Size = New System.Drawing.Size(624, 292)
         Me.dg.TabIndex = 4
         '
         'OpenFileDialog1
@@ -248,11 +249,22 @@ Partial Class frmMain
         Me.btnTopSSIDs.Text = "Filter specific"
         Me.btnTopSSIDs.UseVisualStyleBackColor = True
         '
+        'wbDescription
+        '
+        Me.wbDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.wbDescription.Location = New System.Drawing.Point(12, 310)
+        Me.wbDescription.MinimumSize = New System.Drawing.Size(20, 20)
+        Me.wbDescription.Name = "wbDescription"
+        Me.wbDescription.Size = New System.Drawing.Size(624, 171)
+        Me.wbDescription.TabIndex = 11
+        '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(763, 489)
+        Me.Controls.Add(Me.wbDescription)
         Me.Controls.Add(Me.gbTop1000)
         Me.Controls.Add(Me.lblStats)
         Me.Controls.Add(Me.gbAP)
@@ -291,4 +303,5 @@ Partial Class frmMain
     Friend WithEvents gbTop1000 As System.Windows.Forms.GroupBox
     Friend WithEvents btnTopSSIDs As System.Windows.Forms.Button
     Friend WithEvents btnSSIDnonspecific As System.Windows.Forms.Button
+    Friend WithEvents wbDescription As System.Windows.Forms.WebBrowser
 End Class

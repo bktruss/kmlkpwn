@@ -145,35 +145,6 @@ Public Class frmMain
     End Sub
 
     Private Sub btnTopSSIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTopSSIDs.Click
-        'Me.Cursor = System.Windows.Forms.Cursors.WaitCursor
-        'Dim TextLines() As String = My.Resources.SSID.Split(Environment.NewLine.ToCharArray, System.StringSplitOptions.RemoveEmptyEntries)
-        'Dim rc As New Collection
-        'If IsNothing(dsXML) Then Exit Sub
-        'For Each r As DataRow In dsXML.Tables("Placemark").Rows
-        '    Dim bFound As Boolean = False
-        '    For i As Integer = 0 To UBound(TextLines)
-        '        'If InStr(r("name"), TextLines(i)) > 0 Then
-        '        '    bFound = True
-        '        '    Exit For
-        '        'End If
-        '        If r("name").trim = TextLines(i).Trim Then
-        '            bFound = True
-        '            Exit For
-        '        End If
-        '    Next
-        '    If Not bFound Then
-        '        rc.Add(r)
-        '    End If
-        '    bFound = False
-        'Next
-
-        'For Each r As DataRow In rc
-        '    r.Delete()
-        'Next
-        'dsXML.Tables("Placemark").AcceptChanges()
-        'DrawStats()
-        'DrawGrid()
-        'Me.Cursor = System.Windows.Forms.Cursors.Default
         FilterSSIDs(True)
     End Sub
     Sub FilterSSIDs(ByVal bSpecific As Boolean)
@@ -212,5 +183,36 @@ Public Class frmMain
     End Sub
     Private Sub btnSSIDnonspecific_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSSIDnonspecific.Click
         FilterSSIDs(False)
+    End Sub
+
+    Private Sub dg_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dg.CellClick
+        'Dim r1 As DataRow
+        'Dim r2 As DataRow
+
+        'r1 = dsXML.Tables("Placemark").Rows(e.RowIndex)
+        'r2 = dsXML.Tables("point").Rows(e.RowIndex)
+
+        'wbDescription.DocumentText = r1("description") & "<br>Location : <b>" & r2("coordinates") & "</b>"
+        UpdateHtml()
+    End Sub
+
+    Private Sub dg_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles dg.KeyUp
+        'Dim r As DataRow
+        'r = dsXML.Tables("Placemark").Rows(dg.CurrentRow.Index)
+        'wbDescription.DocumentText = r("description")
+        UpdateHtml()
+    End Sub
+    Sub UpdateHtml()
+        Dim r1 As DataRow
+        Dim r2 As DataRow
+
+        r1 = dsXML.Tables("Placemark").Rows(dg.CurrentRow.Index)
+        r2 = dsXML.Tables("point").Rows(dg.CurrentRow.Index)
+
+        wbDescription.DocumentText = r1("description") & "<br>Location : <b>" & r2("coordinates") & "</b>"
+        '"<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.co.uk/maps?hl=en&amp;ie=UTF8&amp;ll=" & r2("coordinates") & "&amp;spn=0.168923,0.308647&amp;z=12&amp;output=embed'></iframe>"
+
+        'Mid(r2("coordinates"),InStr(r2("coordinates"),"Location :"
+        '"<iframe width='425' height='350' frameborder='0' scrolling='no' marginheight='0' marginwidth='0' src='http://maps.google.co.uk/maps?hl=en&amp;ie=UTF8&amp;ll=" & r2("coordinates") & "&amp;spn=0.168923,0.308647&amp;z=12&amp;output=embed'></iframe>"
     End Sub
 End Class
