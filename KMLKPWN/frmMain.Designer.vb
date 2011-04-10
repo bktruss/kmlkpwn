@@ -39,9 +39,12 @@ Partial Class frmMain
         Me.btnApRemove = New System.Windows.Forms.Button()
         Me.txtAPName = New System.Windows.Forms.TextBox()
         Me.lblStats = New System.Windows.Forms.Label()
+        Me.gbTop1000 = New System.Windows.Forms.GroupBox()
+        Me.btnTopSSIDs = New System.Windows.Forms.Button()
         Me.gbFilter.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAP.SuspendLayout()
+        Me.gbTop1000.SuspendLayout()
         Me.SuspendLayout()
         '
         'cbIBSS
@@ -150,7 +153,7 @@ Partial Class frmMain
         Me.dg.ShowCellToolTips = False
         Me.dg.ShowEditingIcon = False
         Me.dg.ShowRowErrors = False
-        Me.dg.Size = New System.Drawing.Size(624, 473)
+        Me.dg.Size = New System.Drawing.Size(624, 465)
         Me.dg.TabIndex = 4
         '
         'OpenFileDialog1
@@ -209,16 +212,37 @@ Partial Class frmMain
         '
         Me.lblStats.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblStats.Location = New System.Drawing.Point(642, 307)
+        Me.lblStats.Location = New System.Drawing.Point(642, 357)
         Me.lblStats.Name = "lblStats"
-        Me.lblStats.Size = New System.Drawing.Size(109, 178)
+        Me.lblStats.Size = New System.Drawing.Size(109, 120)
         Me.lblStats.TabIndex = 9
+        '
+        'gbTop1000
+        '
+        Me.gbTop1000.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.gbTop1000.Controls.Add(Me.btnTopSSIDs)
+        Me.gbTop1000.Location = New System.Drawing.Point(642, 310)
+        Me.gbTop1000.Name = "gbTop1000"
+        Me.gbTop1000.Size = New System.Drawing.Size(109, 44)
+        Me.gbTop1000.TabIndex = 10
+        Me.gbTop1000.TabStop = False
+        Me.gbTop1000.Text = "Top 1000 SSIDs"
+        '
+        'btnTopSSIDs
+        '
+        Me.btnTopSSIDs.Location = New System.Drawing.Point(6, 16)
+        Me.btnTopSSIDs.Name = "btnTopSSIDs"
+        Me.btnTopSSIDs.Size = New System.Drawing.Size(97, 22)
+        Me.btnTopSSIDs.TabIndex = 0
+        Me.btnTopSSIDs.Text = "Apply"
+        Me.btnTopSSIDs.UseVisualStyleBackColor = True
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(763, 497)
+        Me.ClientSize = New System.Drawing.Size(763, 489)
+        Me.Controls.Add(Me.gbTop1000)
         Me.Controls.Add(Me.lblStats)
         Me.Controls.Add(Me.gbAP)
         Me.Controls.Add(Me.btnSave)
@@ -233,6 +257,7 @@ Partial Class frmMain
         CType(Me.dg, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbAP.ResumeLayout(False)
         Me.gbAP.PerformLayout()
+        Me.gbTop1000.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -252,4 +277,6 @@ Partial Class frmMain
     Friend WithEvents txtAPName As System.Windows.Forms.TextBox
     Friend WithEvents lblAPContains As System.Windows.Forms.Label
     Friend WithEvents lblStats As System.Windows.Forms.Label
+    Friend WithEvents gbTop1000 As System.Windows.Forms.GroupBox
+    Friend WithEvents btnTopSSIDs As System.Windows.Forms.Button
 End Class

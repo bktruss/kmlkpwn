@@ -31,40 +31,53 @@ Public Class frmMain
         If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
         '# open
         If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
+        dg.DataMember = "Placemark"
+        dg.DataSource = dsXML
+
         DrawStats()
         DrawGrid()
     End Sub
     Sub DrawStats()
-        Dim i As Integer
-        lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
 
-        i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+        Try
+            'If dsXML.Tables.Count = 0 Then Exit Sub
+            'If dsXML.Tables("Placemark").Rows.Count Then Exit Sub
 
-        i = Count("[WEP]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            Dim i As Integer
+            lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
 
-        i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-        i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
-        i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
+            lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
-        i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-        i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
-        i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
-        i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            i = Count("[WEP]", "Placemark", "description", dsXML)
+            lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
-        i = Count("[IBSS]", "Placemark", "description", dsXML)
-        lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
-        '# bind to grid
-        dg.DataMember = "Placemark"
-        dg.DataSource = dsXML
+            i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
+            lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+
+            i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+            lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+
+            i = Count("[IBSS]", "Placemark", "description", dsXML)
+            lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            '# bind to grid
+            
+        Catch ex As Exception
+
+        End Try
+        
     End Sub
     Sub DrawGrid()
         On Error Resume Next
         dg.Columns(0).Width = 180
+        dg.Columns(1).HeaderText = "SSID"
         dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 60)
+        dg.Columns(1).HeaderText = "Description"
         dg.Columns(2).Visible = False
         On Error GoTo 0
     End Sub
@@ -126,6 +139,31 @@ Public Class frmMain
         DrawGrid()
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+        DrawGrid()
+    End Sub
+
+    Private Sub btnTopSSIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTopSSIDs.Click
+        Dim TextLines() As String = My.Resources.SSID.Split(Environment.NewLine.ToCharArray, System.StringSplitOptions.RemoveEmptyEntries)
+        Dim rc As New Collection
+        For Each r As DataRow In dsXML.Tables("Placemark").Rows
+            Dim bFound As Boolean = False
+            For i As Integer = 0 To UBound(TextLines)
+                If InStr(r("name"), TextLines(i)) > 0 Then
+                    bFound = True
+                    Exit For
+                End If
+            Next
+            If Not bFound Then
+                rc.Add(r)
+            End If
+            bFound = False
+        Next
+        
+        For Each r As DataRow In rc
+            r.Delete()
+        Next
+        dsXML.Tables("Placemark").AcceptChanges()
+        DrawStats()
         DrawGrid()
     End Sub
 End Class

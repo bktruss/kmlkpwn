@@ -59,5 +59,68 @@ Namespace My.Resources
                 resourceCulture = value
             End Set
         End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to linksys
+        '''&lt;no ssid&gt;
+        '''default
+        '''NETGEAR
+        '''Wireless
+        '''WLAN
+        '''Belkin54g
+        '''MSHOME
+        '''home
+        '''hpsetup
+        '''smc
+        '''tsunami
+        '''ACTIONTEC
+        '''orange
+        '''USR8054
+        '''101
+        '''tmobile
+        '''&lt;hidden ssid&gt;
+        '''SpeedStream
+        '''linksys-g
+        '''3Com
+        '''WaveLAN Network
+        '''Wayport_Access
+        '''hhonors
+        '''pi07490509x
+        '''pi07490509x09
+        '''Motorola
+        '''SST-PR-1
+        '''ANY
+        '''eurospot
+        '''188ALT
+        '''Gateway
+        '''HomeNet
+        '''GoldenTree
+        '''SITECOM
+        '''ConnectionPoint
+        '''&lt;No current ssid&gt;
+        '''Philips WiFi
+        '''Customer ID
+        '''PCX5000
+        '''arescom
+        '''Wireless Network
+        '''Office
+        '''Blitzz
+        '''Airport
+        '''INTERMEC
+        '''freedomlink
+        '''MSFTWLAN
+        '''MIT
+        '''Untitled
+        '''GlobalSuiteWireless
+        '''Cox-Hospitality
+        '''NESPOT
+        '''DLINK
+        ''' [rest of string was truncated]&quot;;.
+        '''</summary>
+        Friend ReadOnly Property SSID() As String
+            Get
+                Return ResourceManager.GetString("SSID", resourceCulture)
+            End Get
+        End Property
     End Module
 End Namespace
