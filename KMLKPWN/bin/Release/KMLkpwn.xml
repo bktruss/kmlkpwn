@@ -1,0 +1,82 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+KMLkpwn
+</name>
+</assembly>
+<members>
+<member name="P:KMLkpwn.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:KMLkpwn.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="P:KMLkpwn.My.Resources.Resources.SSID">
+	<summary>
+  Looks up a localized string similar to linksys
+&lt;no ssid&gt;
+default
+NETGEAR
+Wireless
+WLAN
+Belkin54g
+MSHOME
+home
+hpsetup
+smc
+tsunami
+ACTIONTEC
+orange
+USR8054
+101
+tmobile
+&lt;hidden ssid&gt;
+SpeedStream
+linksys-g
+3Com
+WaveLAN Network
+Wayport_Access
+hhonors
+pi07490509x
+pi07490509x09
+Motorola
+SST-PR-1
+ANY
+eurospot
+188ALT
+Gateway
+HomeNet
+GoldenTree
+SITECOM
+ConnectionPoint
+&lt;No current ssid&gt;
+Philips WiFi
+Customer ID
+PCX5000
+arescom
+Wireless Network
+Office
+Blitzz
+Airport
+INTERMEC
+freedomlink
+MSFTWLAN
+MIT
+Untitled
+GlobalSuiteWireless
+Cox-Hospitality
+NESPOT
+DLINK
+ [rest of string was truncated]";.
+</summary>
+</member><member name="T:KMLkpwn.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>
