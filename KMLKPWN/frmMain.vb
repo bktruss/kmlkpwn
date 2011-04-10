@@ -6,45 +6,56 @@ Public Class frmMain
     Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
         OpenFileDialog1.FileName = ""
         OpenFileDialog1.ShowDialog()
-
         If Dir(OpenFileDialog1.FileName) <> "" Then LoadFile() Else MessageBox.Show("Check file exists.")
     End Sub
     Sub LoadFile()
 
+        '# enable controls 
         gbFilter.Enabled = True
         gbAP.Enabled = True
         gbTop1000.Enabled = True
 
+        '# clear dataset
         dsXML.Clear()
+
+        '# reload/load information
         dsXML.ReadXml(OpenFileDialog1.FileName)
+
         '# wep
         If Not cbWEP.Checked Then RemoveRecords("[WEP]", "Placemark", "description", dsXML)
+
         '# wpa
         If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
         If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP]", "Placemark", "Description", dsXML)
+
         '# wpa2
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+
         '# ibss
         If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
+
         '# open
         If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
         dg.DataMember = "Placemark"
         dg.DataSource = dsXML
 
+        '# call stats and draw grid
         DrawStats()
         DrawGrid()
+
     End Sub
     Sub DrawStats()
 
-        Try
-            'If dsXML.Tables.Count = 0 Then Exit Sub
-            'If dsXML.Tables("Placemark").Rows.Count Then Exit Sub
+        '# check there are records in the file
+        'If dg.CurrentRow.Index < 0 Then Exit Sub
 
+        Try
             Dim i As Integer
+            '# print stats to lblstats
             lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
 
             i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
@@ -66,23 +77,28 @@ Public Class frmMain
 
             i = Count("[IBSS]", "Placemark", "description", dsXML)
             lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
-            '# bind to grid
-            
         Catch ex As Exception
-
+            '# catch errors and write to console
+            'Debug.Write("Statistical error : " & ex.Message)
         End Try
-        
+
     End Sub
     Sub DrawGrid()
         On Error Resume Next
+        '# check for records
+        If dg.CurrentRow.Index < 0 Then Exit Sub
+
+        '# set column headings
         dg.Columns(0).Width = 180
         dg.Columns(0).HeaderText = "SSID"
         dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 20)
         dg.Columns(1).HeaderText = "Description"
         dg.Columns(2).Visible = False
         On Error GoTo 0
+
     End Sub
     Function Count(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+        '# counts networks to produce statictics
         Dim iCount As Integer = 0
         Dim rc As New Collection
         For Each r As DataRow In ds.Tables(sTable).Rows
@@ -93,6 +109,7 @@ Public Class frmMain
         Return iCount
     End Function
     Sub RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+        '# removes records from the dataset
         Dim rc As New Collection
         For Each r As DataRow In ds.Tables(sTable).Rows
             If InStr(r(sColumn).ToString, sSearch) > 0 Then
@@ -104,11 +121,14 @@ Public Class frmMain
         Next
         ds.Tables(sTable).AcceptChanges()
     End Sub
-
     Private Sub KML_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '# form load events
+        '# disable controls
         gbFilter.Enabled = False
         gbAP.Enabled = False
         gbTop1000.Enabled = False
+
+        '# set check box colours
         cbOPEN.ForeColor = Color.Green
         cbWEP.ForeColor = Color.GreenYellow
         cbWPA.ForeColor = Color.Orange
@@ -131,20 +151,24 @@ Public Class frmMain
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
+        '# save file
         SaveFileDialog1.AddExtension = True
         SaveFileDialog1.Filter = "KML files (*.kml)|*.kml"
         If SaveFileDialog1.ShowDialog() <> Windows.Forms.DialogResult.Cancel Then dsXML.WriteXml(SaveFileDialog1.FileName)
     End Sub
     Private Sub btnApRemove_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnApRemove.Click
+        '# remove ap's
         If txtAPName.Text <> "" Then RemoveRecords(txtAPName.Text, "Placemark", "name", dsXML)
+        '# update grid
         DrawStats()
         DrawGrid()
     End Sub
     Private Sub frmMain_Resize(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Resize
+        '# draw grid on resize
         DrawGrid()
     End Sub
-
     Private Sub btnTopSSIDs_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTopSSIDs.Click
+        '# filter list where ssid = ssid (from top 1000)
         FilterSSIDs(True)
     End Sub
     Sub FilterSSIDs(ByVal bSpecific As Boolean)
@@ -182,27 +206,19 @@ Public Class frmMain
         Me.Cursor = System.Windows.Forms.Cursors.Default
     End Sub
     Private Sub btnSSIDnonspecific_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSSIDnonspecific.Click
+        '# filter list where ssid contains ssid (from top 1000)
         FilterSSIDs(False)
     End Sub
-
     Private Sub dg_CellClick(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dg.CellClick
-        'Dim r1 As DataRow
-        'Dim r2 As DataRow
-
-        'r1 = dsXML.Tables("Placemark").Rows(e.RowIndex)
-        'r2 = dsXML.Tables("point").Rows(e.RowIndex)
-
-        'wbDescription.DocumentText = r1("description") & "<br>Location : <b>" & r2("coordinates") & "</b>"
+        '# redraw html when record changes
         UpdateHtml()
     End Sub
-
     Private Sub dg_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles dg.KeyUp
-        'Dim r As DataRow
-        'r = dsXML.Tables("Placemark").Rows(dg.CurrentRow.Index)
-        'wbDescription.DocumentText = r("description")
+        '# redraw html when record changes
         UpdateHtml()
     End Sub
     Sub UpdateHtml()
+        '# function to update html
         Dim r1 As DataRow
         Dim r2 As DataRow
         If dg.CurrentRow.Index < 0 Then Exit Sub
