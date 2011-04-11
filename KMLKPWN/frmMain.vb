@@ -26,14 +26,21 @@ Public Class frmMain
 
         '# wpa
         If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-        If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
         If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP]", "Placemark", "Description", dsXML)
+        If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+        If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
+        If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
+
+        '[WPA2-EAP-CCMP]
+        '#[WPA-PSK-CCMP]
 
         '# wpa2
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+        If Not cbWPA2.Checked Then RemoveRecords("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
+
 
         '# ibss
         If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
@@ -52,6 +59,32 @@ Public Class frmMain
 
         '# check there are records in the file
         'If dg.CurrentRow.Index < 0 Then Exit Sub
+        ' initialize an array of doubles for Y values
+        'Dim yval As Double() = {5, 6, 4, 6, 3}
+
+        ' initialize an array of strings for X values
+        'Dim xval As String() = {"A", "B", "C", "D", "E"}
+
+        ' bind the arrays to the X and Y values of data points in the "ByArray" series
+        'cData.Series("ByArray").Points.DataBindXY(xval, yval)
+
+        ' now iterate through the arrays to add points to the "ByPoint" series,
+        '  setting X and Y values
+        'Dim i As Integer
+
+        'cData.ResetAutoValues()
+        cData.Series.Clear()
+        'cData.ChartAreas.Add("Default")
+        'cData.ChartAreas(0).Area3DStyle.Enable3D = True
+        cData.Series.Add("OPEN")
+        ' Use a custom palette
+        'Dim colorSet(4) As Color = {Color.Red, Color.Blue, Color.Green, Color.Purple}
+        cData.PaletteCustomColors = {Color.LightGreen, Color.Yellow, Color.Red, Color.OrangeRed, Color.Blue}
+        cData.Palette = DataVisualization.Charting.ChartColorPalette.None
+        cData.Series.Add("WEP")
+        cData.Series.Add("WPA")
+        cData.Series.Add("WPA2")
+        cData.Series.Add("IBSS")
 
         Try
             Dim i As Integer
@@ -59,23 +92,31 @@ Public Class frmMain
             lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
 
             i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
+            cData.Series("OPEN").Points.AddXY("OPEN", i)
             lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
             i = Count("[WEP]", "Placemark", "description", dsXML)
+            cData.Series("WEP").Points.AddXY("WEP", i)
             lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
             i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
             i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
             i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
+            cData.Series("WPA").Points.AddXY("WPA", i)
             lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
             i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
             i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
             i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
             i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+            i = i + Count("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
+            cData.Series("WPA2").Points.AddXY("WPA2", i)
             lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
             i = Count("[IBSS]", "Placemark", "description", dsXML)
+            cData.Series("IBSS").Points.AddXY("IBSS", i)
             lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
         Catch ex As Exception
             '# catch errors and write to console
@@ -94,6 +135,22 @@ Public Class frmMain
         dg.Columns(1).Width = (dg.Width - dg.Columns(0).Width - 20)
         dg.Columns(1).HeaderText = "Description"
         dg.Columns(2).Visible = False
+
+        'For Each r As DataRow In dsXML.Tables("").Rows("")
+
+        'Next
+        For i As Integer = 0 To dg.Rows.Count
+            'If dg.Columns()("styleUrl").ToString = "#green" Then
+            If dg.Rows(i).Cells("styleUrl").Value.ToString = "#green" Then
+                '# colour row green
+                dg.Rows(i).DefaultCellStyle.BackColor = Color.LightGreen
+            ElseIf dg.Rows(i).Cells("styleUrl").Value.ToString = "#yellow" Then
+                dg.Rows(i).DefaultCellStyle.BackColor = Color.GreenYellow
+            ElseIf dg.Rows(i).Cells("styleUrl").Value.ToString = "#red" Then
+                dg.Rows(i).DefaultCellStyle.BackColor = Color.OrangeRed
+
+            End If
+        Next
         On Error GoTo 0
 
     End Sub
@@ -131,9 +188,14 @@ Public Class frmMain
         '# set check box colours
         cbOPEN.ForeColor = Color.Green
         cbWEP.ForeColor = Color.GreenYellow
-        cbWPA.ForeColor = Color.Orange
+        cbWPA.ForeColor = Color.Red
         cbWPA2.ForeColor = Color.Red
         cbIBSS.ForeColor = Color.DarkRed
+
+        cData.Series.Clear()
+        cData.BackColor = Me.BackColor
+        cData.BackSecondaryColor = Me.BackColor
+        'cData.
     End Sub
     Private Sub cbWEP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWEP.CheckedChanged
         If OpenFileDialog1.FileName <> "" Then LoadFile()
@@ -225,5 +287,13 @@ Public Class frmMain
         r1 = dsXML.Tables("Placemark").Rows(dg.CurrentRow.Index)
         r2 = dsXML.Tables("point").Rows(dg.CurrentRow.Index)
         wbDescription.DocumentText = r1("description") & "<br>Location : <b>" & r2("coordinates") & "</b>"
+    End Sub
+
+    Private Sub dg_Sorted(ByVal sender As Object, ByVal e As System.EventArgs) Handles dg.Sorted
+        DrawGrid()
+    End Sub
+
+    Private Sub lblStats_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblStats.Click
+
     End Sub
 End Class

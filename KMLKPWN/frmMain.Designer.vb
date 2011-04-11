@@ -22,6 +22,9 @@ Partial Class frmMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.cbIBSS = New System.Windows.Forms.CheckBox()
         Me.cbOPEN = New System.Windows.Forms.CheckBox()
@@ -43,10 +46,12 @@ Partial Class frmMain
         Me.btnSSIDnonspecific = New System.Windows.Forms.Button()
         Me.btnTopSSIDs = New System.Windows.Forms.Button()
         Me.wbDescription = New System.Windows.Forms.WebBrowser()
+        Me.cData = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.gbFilter.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAP.SuspendLayout()
         Me.gbTop1000.SuspendLayout()
+        CType(Me.cData, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'cbIBSS
@@ -54,7 +59,7 @@ Partial Class frmMain
         Me.cbIBSS.AutoSize = True
         Me.cbIBSS.Checked = True
         Me.cbIBSS.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbIBSS.Location = New System.Drawing.Point(6, 116)
+        Me.cbIBSS.Location = New System.Drawing.Point(27, 113)
         Me.cbIBSS.Name = "cbIBSS"
         Me.cbIBSS.Size = New System.Drawing.Size(50, 17)
         Me.cbIBSS.TabIndex = 7
@@ -66,7 +71,7 @@ Partial Class frmMain
         Me.cbOPEN.AutoSize = True
         Me.cbOPEN.Checked = True
         Me.cbOPEN.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbOPEN.Location = New System.Drawing.Point(6, 19)
+        Me.cbOPEN.Location = New System.Drawing.Point(27, 21)
         Me.cbOPEN.Name = "cbOPEN"
         Me.cbOPEN.Size = New System.Drawing.Size(52, 17)
         Me.cbOPEN.TabIndex = 6
@@ -76,7 +81,7 @@ Partial Class frmMain
         'btnLoad
         '
         Me.btnLoad.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnLoad.Location = New System.Drawing.Point(642, 12)
+        Me.btnLoad.Location = New System.Drawing.Point(663, 12)
         Me.btnLoad.Name = "btnLoad"
         Me.btnLoad.Size = New System.Drawing.Size(109, 23)
         Me.btnLoad.TabIndex = 5
@@ -88,7 +93,7 @@ Partial Class frmMain
         Me.cbWPA2.AutoSize = True
         Me.cbWPA2.Checked = True
         Me.cbWPA2.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWPA2.Location = New System.Drawing.Point(6, 93)
+        Me.cbWPA2.Location = New System.Drawing.Point(27, 90)
         Me.cbWPA2.Name = "cbWPA2"
         Me.cbWPA2.Size = New System.Drawing.Size(57, 17)
         Me.cbWPA2.TabIndex = 5
@@ -100,7 +105,7 @@ Partial Class frmMain
         Me.cbWPA.AutoSize = True
         Me.cbWPA.Checked = True
         Me.cbWPA.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWPA.Location = New System.Drawing.Point(6, 65)
+        Me.cbWPA.Location = New System.Drawing.Point(27, 67)
         Me.cbWPA.Name = "cbWPA"
         Me.cbWPA.Size = New System.Drawing.Size(51, 17)
         Me.cbWPA.TabIndex = 4
@@ -115,7 +120,7 @@ Partial Class frmMain
         Me.gbFilter.Controls.Add(Me.cbWPA2)
         Me.gbFilter.Controls.Add(Me.cbWPA)
         Me.gbFilter.Controls.Add(Me.cbWEP)
-        Me.gbFilter.Location = New System.Drawing.Point(642, 70)
+        Me.gbFilter.Location = New System.Drawing.Point(663, 70)
         Me.gbFilter.Name = "gbFilter"
         Me.gbFilter.Size = New System.Drawing.Size(109, 139)
         Me.gbFilter.TabIndex = 6
@@ -127,7 +132,7 @@ Partial Class frmMain
         Me.cbWEP.AutoSize = True
         Me.cbWEP.Checked = True
         Me.cbWEP.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.cbWEP.Location = New System.Drawing.Point(6, 42)
+        Me.cbWEP.Location = New System.Drawing.Point(27, 44)
         Me.cbWEP.Name = "cbWEP"
         Me.cbWEP.Size = New System.Drawing.Size(51, 17)
         Me.cbWEP.TabIndex = 3
@@ -148,7 +153,6 @@ Partial Class frmMain
         Me.dg.Location = New System.Drawing.Point(12, 12)
         Me.dg.MultiSelect = False
         Me.dg.Name = "dg"
-        Me.dg.ReadOnly = True
         Me.dg.RowHeadersVisible = False
         Me.dg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -156,7 +160,7 @@ Partial Class frmMain
         Me.dg.ShowCellToolTips = False
         Me.dg.ShowEditingIcon = False
         Me.dg.ShowRowErrors = False
-        Me.dg.Size = New System.Drawing.Size(624, 292)
+        Me.dg.Size = New System.Drawing.Size(645, 367)
         Me.dg.TabIndex = 4
         '
         'OpenFileDialog1
@@ -166,7 +170,7 @@ Partial Class frmMain
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(642, 41)
+        Me.btnSave.Location = New System.Drawing.Point(663, 41)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(109, 23)
         Me.btnSave.TabIndex = 7
@@ -179,7 +183,7 @@ Partial Class frmMain
         Me.gbAP.Controls.Add(Me.lblAPContains)
         Me.gbAP.Controls.Add(Me.btnApRemove)
         Me.gbAP.Controls.Add(Me.txtAPName)
-        Me.gbAP.Location = New System.Drawing.Point(642, 215)
+        Me.gbAP.Location = New System.Drawing.Point(663, 215)
         Me.gbAP.Name = "gbAP"
         Me.gbAP.Size = New System.Drawing.Size(109, 89)
         Me.gbAP.TabIndex = 8
@@ -215,9 +219,9 @@ Partial Class frmMain
         '
         Me.lblStats.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblStats.Location = New System.Drawing.Point(642, 385)
+        Me.lblStats.Location = New System.Drawing.Point(663, 385)
         Me.lblStats.Name = "lblStats"
-        Me.lblStats.Size = New System.Drawing.Size(109, 92)
+        Me.lblStats.Size = New System.Drawing.Size(109, 167)
         Me.lblStats.TabIndex = 9
         '
         'gbTop1000
@@ -225,7 +229,7 @@ Partial Class frmMain
         Me.gbTop1000.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gbTop1000.Controls.Add(Me.btnSSIDnonspecific)
         Me.gbTop1000.Controls.Add(Me.btnTopSSIDs)
-        Me.gbTop1000.Location = New System.Drawing.Point(642, 310)
+        Me.gbTop1000.Location = New System.Drawing.Point(663, 310)
         Me.gbTop1000.Name = "gbTop1000"
         Me.gbTop1000.Size = New System.Drawing.Size(109, 72)
         Me.gbTop1000.TabIndex = 10
@@ -252,19 +256,37 @@ Partial Class frmMain
         '
         'wbDescription
         '
-        Me.wbDescription.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.wbDescription.Location = New System.Drawing.Point(12, 310)
+        Me.wbDescription.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.wbDescription.Location = New System.Drawing.Point(12, 385)
         Me.wbDescription.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbDescription.Name = "wbDescription"
-        Me.wbDescription.Size = New System.Drawing.Size(624, 171)
+        Me.wbDescription.Size = New System.Drawing.Size(538, 171)
         Me.wbDescription.TabIndex = 11
+        '
+        'cData
+        '
+        Me.cData.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        ChartArea1.Name = "ChartArea1"
+        Me.cData.ChartAreas.Add(ChartArea1)
+        Legend1.Name = "Legend1"
+        Me.cData.Legends.Add(Legend1)
+        Me.cData.Location = New System.Drawing.Point(556, 388)
+        Me.cData.Name = "cData"
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        Me.cData.Series.Add(Series1)
+        Me.cData.Size = New System.Drawing.Size(101, 168)
+        Me.cData.TabIndex = 12
+        Me.cData.Text = "Wifi"
         '
         'frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(763, 489)
+        Me.ClientSize = New System.Drawing.Size(784, 564)
+        Me.Controls.Add(Me.cData)
         Me.Controls.Add(Me.wbDescription)
         Me.Controls.Add(Me.gbTop1000)
         Me.Controls.Add(Me.lblStats)
@@ -282,6 +304,7 @@ Partial Class frmMain
         Me.gbAP.ResumeLayout(False)
         Me.gbAP.PerformLayout()
         Me.gbTop1000.ResumeLayout(False)
+        CType(Me.cData, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -305,4 +328,5 @@ Partial Class frmMain
     Friend WithEvents btnTopSSIDs As System.Windows.Forms.Button
     Friend WithEvents btnSSIDnonspecific As System.Windows.Forms.Button
     Friend WithEvents wbDescription As System.Windows.Forms.WebBrowser
+    Friend WithEvents cData As System.Windows.Forms.DataVisualization.Charting.Chart
 End Class
