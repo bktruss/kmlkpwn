@@ -31,16 +31,12 @@ Public Class frmMain
         If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
 
-        '[WPA2-EAP-CCMP]
-        '#[WPA-PSK-CCMP]
-
         '# wpa2
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
         If Not cbWPA2.Checked Then RemoveRecords("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
-
 
         '# ibss
         If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
@@ -57,36 +53,16 @@ Public Class frmMain
     End Sub
     Sub DrawStats()
 
-        '# check there are records in the file
-        'If dg.CurrentRow.Index < 0 Then Exit Sub
-        ' initialize an array of doubles for Y values
-        'Dim yval As Double() = {5, 6, 4, 6, 3}
-
-        ' initialize an array of strings for X values
-        'Dim xval As String() = {"A", "B", "C", "D", "E"}
-
-        ' bind the arrays to the X and Y values of data points in the "ByArray" series
-        'cData.Series("ByArray").Points.DataBindXY(xval, yval)
-
-        ' now iterate through the arrays to add points to the "ByPoint" series,
-        '  setting X and Y values
-        'Dim i As Integer
-
-        'cData.ResetAutoValues()
-        cData.Series.Clear()
-        'cData.ChartAreas.Add("Default")
-        'cData.ChartAreas(0).Area3DStyle.Enable3D = True
-        cData.Series.Add("OPEN")
-        ' Use a custom palette
-        'Dim colorSet(4) As Color = {Color.Red, Color.Blue, Color.Green, Color.Purple}
-        cData.PaletteCustomColors = {Color.LightGreen, Color.Yellow, Color.Red, Color.OrangeRed, Color.Blue}
-        cData.Palette = DataVisualization.Charting.ChartColorPalette.None
-        cData.Series.Add("WEP")
-        cData.Series.Add("WPA")
-        cData.Series.Add("WPA2")
-        cData.Series.Add("IBSS")
-
         Try
+            cData.Series.Clear()
+            cData.PaletteCustomColors = {Color.LightGreen, Color.Yellow, Color.Red, Color.OrangeRed, Color.Blue}
+            cData.Palette = DataVisualization.Charting.ChartColorPalette.None
+            cData.Series.Add("OPEN")
+            cData.Series.Add("WEP")
+            cData.Series.Add("WPA")
+            cData.Series.Add("WPA2")
+            cData.Series.Add("IBSS")
+
             Dim i As Integer
             '# print stats to lblstats
             lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count

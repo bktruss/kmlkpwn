@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("KMLSmoke")> 
-<Assembly: AssemblyDescription("")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("KMLSmoke")> 
+<Assembly: AssemblyTitle("KMLkpwn")> 
+<Assembly: AssemblyDescription("KML file analysis.")> 
+<Assembly: AssemblyCompany("Hakology")> 
+<Assembly: AssemblyProduct("KMLkpwn")> 
 <Assembly: AssemblyCopyright("Copyright ©  2011")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTrademark("Hakology.")> 
 
 <Assembly: ComVisible(False)>
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.0.0.0")> 
-<Assembly: AssemblyFileVersion("1.0.0.0")> 
+<Assembly: AssemblyVersion("0.0.5.0")> 
+<Assembly: AssemblyFileVersion("0.0.5.0")> 

@@ -122,5 +122,12 @@ Namespace My.Resources
                 Return ResourceManager.GetString("SSID", resourceCulture)
             End Get
         End Property
+        
+        Friend ReadOnly Property the_planet_earth() As System.Drawing.Bitmap
+            Get
+                Dim obj As Object = ResourceManager.GetObject("the_planet_earth", resourceCulture)
+                Return CType(obj,System.Drawing.Bitmap)
+            End Get
+        End Property
     End Module
 End Namespace
