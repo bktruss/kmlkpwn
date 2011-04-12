@@ -151,7 +151,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="GoogleKLM.ico" />
-    <None Include="the-planet-earth.jpg" />
+    <None Include="splash.jpg" />
     <None Include="Resources\Splash.bmp" />
     <None Include="SSID.txt" />
     <None Include="Resources\SSID.txt" />
