@@ -22,6 +22,7 @@ Partial Class frmMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
@@ -48,6 +49,7 @@ Partial Class frmMain
         Me.btnTopSSIDs = New System.Windows.Forms.Button()
         Me.wbDescription = New System.Windows.Forms.WebBrowser()
         Me.cData = New System.Windows.Forms.DataVisualization.Charting.Chart()
+        Me.tooltips = New System.Windows.Forms.ToolTip(Me.components)
         Me.gbFilter.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbAP.SuspendLayout()
@@ -82,9 +84,9 @@ Partial Class frmMain
         'btnLoad
         '
         Me.btnLoad.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnLoad.Location = New System.Drawing.Point(663, 12)
+        Me.btnLoad.Location = New System.Drawing.Point(643, 12)
         Me.btnLoad.Name = "btnLoad"
-        Me.btnLoad.Size = New System.Drawing.Size(109, 23)
+        Me.btnLoad.Size = New System.Drawing.Size(129, 23)
         Me.btnLoad.TabIndex = 5
         Me.btnLoad.Text = "&Load file"
         Me.btnLoad.UseVisualStyleBackColor = True
@@ -144,7 +146,6 @@ Partial Class frmMain
         '
         Me.dg.AllowUserToAddRows = False
         Me.dg.AllowUserToDeleteRows = False
-        Me.dg.AllowUserToOrderColumns = True
         Me.dg.AllowUserToResizeColumns = False
         Me.dg.AllowUserToResizeRows = False
         Me.dg.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -154,6 +155,7 @@ Partial Class frmMain
         Me.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dg.Location = New System.Drawing.Point(12, 12)
         Me.dg.Name = "dg"
+        Me.dg.ReadOnly = True
         Me.dg.RowHeadersVisible = False
         Me.dg.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
@@ -171,9 +173,9 @@ Partial Class frmMain
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(663, 41)
+        Me.btnSave.Location = New System.Drawing.Point(643, 41)
         Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(109, 23)
+        Me.btnSave.Size = New System.Drawing.Size(129, 23)
         Me.btnSave.TabIndex = 7
         Me.btnSave.Text = "&Save file as"
         Me.btnSave.UseVisualStyleBackColor = True
@@ -308,6 +310,7 @@ Partial Class frmMain
         Me.Controls.Add(Me.dg)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmMain"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "KMLkpwn"
         Me.gbFilter.ResumeLayout(False)
         Me.gbFilter.PerformLayout()
@@ -341,4 +344,5 @@ Partial Class frmMain
     Friend WithEvents wbDescription As System.Windows.Forms.WebBrowser
     Friend WithEvents cData As System.Windows.Forms.DataVisualization.Charting.Chart
     Friend WithEvents btnRemoveSelected As System.Windows.Forms.Button
+    Friend WithEvents tooltips As System.Windows.Forms.ToolTip
 End Class
