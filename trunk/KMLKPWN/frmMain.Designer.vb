@@ -140,6 +140,7 @@ Partial Class frmMain
         '
         'btnRemoveSelected
         '
+        Me.btnRemoveSelected.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnRemoveSelected.Location = New System.Drawing.Point(6, 58)
         Me.btnRemoveSelected.Name = "btnRemoveSelected"
         Me.btnRemoveSelected.Size = New System.Drawing.Size(187, 23)
@@ -158,6 +159,7 @@ Partial Class frmMain
         '
         'btnApRemove
         '
+        Me.btnApRemove.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnApRemove.Location = New System.Drawing.Point(130, 30)
         Me.btnApRemove.Name = "btnApRemove"
         Me.btnApRemove.Size = New System.Drawing.Size(59, 23)
@@ -179,25 +181,27 @@ Partial Class frmMain
         Me.gbTop1000.Controls.Add(Me.btnTopSSIDs)
         Me.gbTop1000.Location = New System.Drawing.Point(678, 326)
         Me.gbTop1000.Name = "gbTop1000"
-        Me.gbTop1000.Size = New System.Drawing.Size(199, 72)
+        Me.gbTop1000.Size = New System.Drawing.Size(199, 47)
         Me.gbTop1000.TabIndex = 10
         Me.gbTop1000.TabStop = False
         Me.gbTop1000.Text = "Top 1000 SSIDs"
         '
         'btnSSIDnonspecific
         '
+        Me.btnSSIDnonspecific.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSSIDnonspecific.Location = New System.Drawing.Point(6, 19)
         Me.btnSSIDnonspecific.Name = "btnSSIDnonspecific"
-        Me.btnSSIDnonspecific.Size = New System.Drawing.Size(187, 22)
+        Me.btnSSIDnonspecific.Size = New System.Drawing.Size(89, 22)
         Me.btnSSIDnonspecific.TabIndex = 1
         Me.btnSSIDnonspecific.Text = "Filter containing"
         Me.btnSSIDnonspecific.UseVisualStyleBackColor = True
         '
         'btnTopSSIDs
         '
-        Me.btnTopSSIDs.Location = New System.Drawing.Point(6, 44)
+        Me.btnTopSSIDs.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnTopSSIDs.Location = New System.Drawing.Point(104, 19)
         Me.btnTopSSIDs.Name = "btnTopSSIDs"
-        Me.btnTopSSIDs.Size = New System.Drawing.Size(187, 22)
+        Me.btnTopSSIDs.Size = New System.Drawing.Size(89, 22)
         Me.btnTopSSIDs.TabIndex = 0
         Me.btnTopSSIDs.Text = "Filter specific"
         Me.btnTopSSIDs.UseVisualStyleBackColor = True
@@ -234,13 +238,14 @@ Partial Class frmMain
         Me.lblStats.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStats.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStats.Location = New System.Drawing.Point(687, 404)
+        Me.lblStats.Location = New System.Drawing.Point(687, 379)
         Me.lblStats.Multiline = True
         Me.lblStats.Name = "lblStats"
         Me.lblStats.ReadOnly = True
         Me.lblStats.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.lblStats.Size = New System.Drawing.Size(190, 164)
+        Me.lblStats.Size = New System.Drawing.Size(190, 189)
         Me.lblStats.TabIndex = 13
+        Me.lblStats.WordWrap = False
         '
         'frmMain
         '

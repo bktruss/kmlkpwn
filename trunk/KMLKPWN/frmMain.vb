@@ -527,7 +527,7 @@ Public Class frmMain
             End If
         Next
         If IsNothing(rLocation) Then Exit Sub
-        wbDescription.DocumentText = "<SPAN STYLE='font-size: x-small'>" & dg.CurrentRow.Cells("description").Value.ToString & "<br>Location : <b>" & rLocation("coordinates") & "</b></SPAN>"
+        wbDescription.DocumentText = "<SPAN STYLE='font-size: xx-small; font-family : Arial;'>" & dg.CurrentRow.Cells("description").Value.ToString & "<br>Location : <b>" & rLocation("coordinates") & "</b></SPAN>"
         'Dim LocationParams() As Array = rLocation("coordinates").ToString.Split(",")
 
         ' We want to split this input string
