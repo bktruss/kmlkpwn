@@ -2,18 +2,20 @@
 Imports System.Data
 Imports System.Data.SqlClient
 Public Class frmMain
-    Dim dsXML As New DataSet()
+    Dim dsOriginal As New DataSet()
+    Dim dsXML As New DataSet() '# holds current data
+    Dim bInLoad As Boolean = False
     Private Sub btnLoad_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnLoad.Click
         OpenFileDialog1.FileName = ""
         OpenFileDialog1.ShowDialog()
         If Dir(OpenFileDialog1.FileName) <> "" Then LoadFile() Else MessageBox.Show("Check file exists.")
     End Sub
     Sub LoadFile()
+        bInLoad = True
+        Dim sSecurityTypes(0) As String
+        sSecurityTypes(0) = ""
         Try
-            '# enable controls 
-            gbFilter.Enabled = True
-            gbAP.Enabled = True
-            gbTop1000.Enabled = True
+            
 
             '# clear dataset
             dsXML = Nothing
@@ -22,31 +24,31 @@ Public Class frmMain
 
             '# reload/load information
             dsXML.ReadXml(OpenFileDialog1.FileName)
+            dsOriginal = dsXML.Copy
 
-            '# wep
-            If Not cbWEP.Checked Then RemoveRecords("[WEP]", "Placemark", "description", dsXML)
+            ''# wep
+            'If Not cbWEP.Checked Then RemoveRecords("[WEP]", "Placemark", "description", dsXML)
 
-            '# wpa
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP]", "Placemark", "Description", dsXML)
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
-            If Not cbWPA.Checked Then RemoveRecords("[WPA-?]", "Placemark", "description", dsXML)
-            '[WPA-?]
+            ''# wpa
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-TKIP]", "Placemark", "Description", dsXML)
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
+            'If Not cbWPA.Checked Then RemoveRecords("[WPA-?]", "Placemark", "description", dsXML)
 
-            '# wpa2
-            If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-            If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
-            If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
-            If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
-            If Not cbWPA2.Checked Then RemoveRecords("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
+            ''# wpa2
+            'If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            'If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
+            'If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
+            'If Not cbWPA2.Checked Then RemoveRecords("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+            'If Not cbWPA2.Checked Then RemoveRecords("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
 
-            '# ibss
-            If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
+            ''# ibss
+            'If Not cbIBSS.Checked Then RemoveRecords("[IBSS]", "Placemark", "description", dsXML)
 
-            '# open
-            If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
+            ''# open
+            'If Not cbOPEN.Checked Then RemoveRecords("Capabilities: <b></b>", "Placemark", "description", dsXML)
             dg.DataMember = "Placemark"
             dg.DataSource = dsXML
 
@@ -94,17 +96,32 @@ Public Class frmMain
                 sReturn = Mid(r("description"), InStr(r("description"), "Capabilities: <b>") + 17)
                 sReturn = Mid(sReturn, 1, InStr(sReturn, "</b><br/>Frequency:") - 1)
                 If sReturn = "" Then sReturn = "[OPEN]"
-                r("Security") = sReturn
+                r("Security") = sReturn.Trim
+
+                Dim bFound As Boolean = False
+                For Each s As String In sSecurityTypes
+                    If s.Trim.ToUpper = sReturn.Trim.ToUpper Then
+                        bFound = True
+                        Exit For
+                    End If
+                Next
+
+                If Not bFound Then
+                    ReDim Preserve sSecurityTypes(sSecurityTypes.GetUpperBound(0) + 1)
+                    sSecurityTypes(sSecurityTypes.GetUpperBound(0)) = sReturn
+                    bFound = False
+                End If
+
                 '# Security BSSID Frequency Timestamp Date Level
                 sReturn = Mid(r("description"), InStr(r("description"), "BSSID: <b>") + 10)
                 sReturn = Mid(sReturn, 1, InStr(sReturn, "</b><br/>Capabilities:") - 1)
-                r("BSSID") = sReturn.ToUpper
+                r("BSSID") = sReturn.ToUpper.Trim
 
                 sReturn = Mid(r("description"), InStr(r("description"), "Frequency: <b>") + 14)
                 sReturn = Mid(sReturn, 1, InStr(sReturn, "</b><br/>Level:") - 1)
-                r("Frequency") = sReturn
+                r("Frequency") = sReturn.Trim
                 Try
-                    r("Channel") = FrequencyToChannel(CInt(sReturn))
+                    r("Channel") = FrequencyToChannel(CInt(sReturn.Trim))
                 Catch ex As Exception
                     Debug.Write("Error converting frequency to channel. " & ex.Message)
                 End Try
@@ -112,19 +129,27 @@ Public Class frmMain
 
                 sReturn = Mid(r("description"), InStr(r("description"), "Timestamp: <b>") + 14)
                 sReturn = Mid(sReturn, 1, InStr(sReturn, "</b><br/>Date:") - 1)
-                r("Timestamp") = sReturn
+                r("Timestamp") = sReturn.Trim
 
                 sReturn = Mid(r("description"), InStr(r("description"), "Date: <b>") + 9)
                 sReturn = Mid(sReturn, 1, sReturn.Length - 4)
-                r("Date") = sReturn
+                r("Date") = sReturn.Trim
 
                 sReturn = Mid(r("description"), InStr(r("description"), "Level: <b>") + 10)
                 sReturn = Mid(sReturn, 1, InStr(sReturn, "</b><br/>Timestamp:") - 1)
-                r("Level") = sReturn
+                r("Level") = sReturn.Trim
             Next
         Catch ex As Exception
             MessageBox.Show("Error loading file. " & ex.Message)
         End Try
+
+        lbSecurityTypes.Items.Clear()
+        For Each s As String In sSecurityTypes
+            If s.Trim <> "" Then
+                lbSecurityTypes.Items.Add(s, True)
+            End If
+        Next
+
 
         Try
 
@@ -147,6 +172,16 @@ Public Class frmMain
         DrawStats()
         DrawGrid()
         UpdateHtml()
+        bInLoad = False
+
+        dsOriginal = dsXML.Copy
+
+
+        '# enable controls 
+        gbFilter.Enabled = True
+        gbAP.Enabled = True
+        gbTop1000.Enabled = True
+
     End Sub
     Sub DrawStats()
 
@@ -161,34 +196,44 @@ Public Class frmMain
             '# print stats to lblstats
             lblStats.Text = "Stats " & vbCrLf & "Total : " & dsXML.Tables("Placemark").Rows.Count
 
-            i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
-            cData.Series("WIFI").Points.AddXY("OPEN", i)
-            lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            For Each item In lbSecurityTypes.Items
+                i = Count(item, "Placemark", "Security", dsXML, True)
+                If i > 0 Then
+                    If CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) > 5 Then
+                        cData.Series("WIFI").Points.AddXY(item, i)
+                    End If
+                    lblStats.Text = lblStats.Text & vbCrLf & item & " : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+                End If
+            Next
 
-            i = Count("[WEP]", "Placemark", "description", dsXML)
-            cData.Series("WIFI").Points.AddXY("WEP", i)
-            lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            'i = Count("Capabilities: <b></b>", "Placemark", "description", dsXML)
+            'cData.Series("WIFI").Points.AddXY("OPEN", i)
+            'lblStats.Text = lblStats.Text & vbCrLf & "OPEN : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
-            i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA-?]", "Placemark", "description", dsXML)
-            cData.Series("WIFI").Points.AddXY("WPA", i)
-            lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            'i = Count("[WEP]", "Placemark", "description", dsXML)
+            'cData.Series("WIFI").Points.AddXY("WEP", i)
+            'lblStats.Text = lblStats.Text & vbCrLf & "WEP : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
-            i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
-            i = i + Count("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
-            cData.Series("WIFI").Points.AddXY("WPA2", i)
-            lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            'i = Count("[WPA-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA-EAP-TKIP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA-PSK-TKIP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA-PSK-CCMP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA-EAP-CCMP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA-?]", "Placemark", "description", dsXML)
+            'cData.Series("WIFI").Points.AddXY("WPA", i)
+            'lblStats.Text = lblStats.Text & vbCrLf & "WPA : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
 
-            i = Count("[IBSS]", "Placemark", "description", dsXML)
-            cData.Series("WIFI").Points.AddXY("IBSS", i)
-            lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+            'i = Count("[WPA2-PSK-TKIP+CCMP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA2-PSK-CCMP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA2-PSK-TKIP]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA2-PSK-CCMP-preauth]", "Placemark", "description", dsXML)
+            'i = i + Count("[WPA2-EAP-CCMP]", "Placemark", "description", dsXML)
+            'cData.Series("WIFI").Points.AddXY("WPA2", i)
+            'lblStats.Text = lblStats.Text & vbCrLf & "WPA2 : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
+
+            'i = Count("[IBSS]", "Placemark", "description", dsXML)
+            'cData.Series("WIFI").Points.AddXY("IBSS", i)
+            'lblStats.Text = lblStats.Text & vbCrLf & "IBSS : " & i & " (" & CInt((100 / dsXML.Tables("Placemark").Rows.Count) * i) & "%)"
         Catch ex As Exception
             '# catch errors and write to console
             'Debug.Write("Statistical error : " & ex.Message)
@@ -230,26 +275,45 @@ Public Class frmMain
         Next
         On Error GoTo 0
 
+
     End Sub
-    Function Count(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+    Function Count(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet, Optional ByVal bExact As Boolean = False)
         '# counts networks to produce statictics
         Dim iCount As Integer = 0
         Dim rc As New Collection
         For Each r As DataRow In ds.Tables(sTable).Rows
-            If InStr(r(sColumn).ToString, sSearch) > 0 Then
-                iCount = iCount + 1
+            If bExact Then
+                If r(sColumn).ToString.Trim.ToUpper = sSearch.Trim.ToUpper Then
+                    iCount = iCount + 1
+                End If
+            Else
+                If InStr(r(sColumn).ToString, sSearch) > 0 Then
+                    iCount = iCount + 1
+                End If
             End If
+
         Next
         Return iCount
     End Function
-    Sub RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet)
+    Sub RemoveRecords(ByVal sSearch As String, ByVal sTable As String, ByVal sColumn As String, ByRef ds As DataSet, _
+                      Optional ByVal bExactMatch As Boolean = False)
         '# removes records from the dataset
         Dim rc As New Collection
+
         For Each r As DataRow In ds.Tables(sTable).Rows
-            If InStr(r(sColumn).ToString, sSearch) > 0 Then
-                rc.Add(r)
+            If Not bExactMatch Then
+                If InStr(r(sColumn).ToString, sSearch) > 0 Then
+                    rc.Add(r)
+                End If
+            Else
+                If r(sColumn).ToString.ToUpper.Trim = sSearch.ToUpper.Trim Then
+                    rc.Add(r)
+                End If
             End If
+
+
         Next
+
         For Each r As DataRow In rc
             r.Delete()
         Next
@@ -289,11 +353,11 @@ Public Class frmMain
         tooltips.SetToolTip(btnApRemove, "Click to remove SSIDs that contain the above case sensative string.")
         tooltips.SetToolTip(btnRemoveSelected, "Click here to remove selected rows from your data.")
 
-        tooltips.SetToolTip(cbOPEN, "Filter open networks.")
-        tooltips.SetToolTip(cbWEP, "Filter WEP networks.")
-        tooltips.SetToolTip(cbWPA, "Filter WPA networks. (Note will also remove dual WPA/WPA2 networks.)")
-        tooltips.SetToolTip(cbWPA2, "Filter WPA2 networks. (Note will also remove dual WPA/WPA2 networks.)")
-        tooltips.SetToolTip(cbIBSS, "Filter IBSS network devices.")
+        'tooltips.SetToolTip(cbOPEN, "Filter open networks.")
+        'tooltips.SetToolTip(cbWEP, "Filter WEP networks.")
+        'tooltips.SetToolTip(cbWPA, "Filter WPA networks. (Note will also remove dual WPA/WPA2 networks.)")
+        'tooltips.SetToolTip(cbWPA2, "Filter WPA2 networks. (Note will also remove dual WPA/WPA2 networks.)")
+        'tooltips.SetToolTip(cbIBSS, "Filter IBSS network devices.")
 
         tooltips.SetToolTip(dg, "Double click to jump to location via. http://www.openstreetmap.org/")
 
@@ -304,12 +368,12 @@ Public Class frmMain
         gbTop1000.Enabled = False
         btnSave.Enabled = False
 
-        '# set check box colours
-        cbOPEN.ForeColor = Color.Green
-        cbWEP.ForeColor = Color.GreenYellow
-        cbWPA.ForeColor = Color.Red
-        cbWPA2.ForeColor = Color.Red
-        cbIBSS.ForeColor = Color.DarkRed
+        ''# set check box colours
+        'cbOPEN.ForeColor = Color.Green
+        'cbWEP.ForeColor = Color.GreenYellow
+        'cbWPA.ForeColor = Color.Red
+        'cbWPA2.ForeColor = Color.Red
+        'cbIBSS.ForeColor = Color.DarkRed
 
         cData.Series.Clear()
         cData.BackColor = Me.BackColor
@@ -322,19 +386,19 @@ Public Class frmMain
             End If
         Next
     End Sub
-    Private Sub cbWEP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWEP.CheckedChanged
+    Private Sub cbWEP_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-    Private Sub cbWPA_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWPA.CheckedChanged
+    Private Sub cbWPA_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-    Private Sub cbWPA2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbWPA2.CheckedChanged
+    Private Sub cbWPA2_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-    Private Sub cbIBSS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbIBSS.CheckedChanged
+    Private Sub cbIBSS_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
-    Private Sub cbOPEN_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbOPEN.CheckedChanged
+    Private Sub cbOPEN_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If OpenFileDialog1.FileName <> "" Then LoadFile()
     End Sub
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
@@ -450,7 +514,7 @@ Public Class frmMain
     End Sub
     Sub UpdateHtml()
         '# function to update html
-        Dim rLocation As DataRow
+        Dim rLocation As DataRow = Nothing
         'Dim r2 As DataRow
 
 
@@ -462,8 +526,8 @@ Public Class frmMain
                 Exit For
             End If
         Next
-
-        wbDescription.DocumentText = dg.CurrentRow.Cells("description").Value.ToString & "<br>Location : <b>" & rLocation("coordinates") & "</b>"
+        If IsNothing(rLocation) Then Exit Sub
+        wbDescription.DocumentText = "<SPAN STYLE='font-size: x-small'>" & dg.CurrentRow.Cells("description").Value.ToString & "<br>Location : <b>" & rLocation("coordinates") & "</b></SPAN>"
         'Dim LocationParams() As Array = rLocation("coordinates").ToString.Split(",")
 
         ' We want to split this input string
@@ -500,6 +564,29 @@ Public Class frmMain
                 DrawStats()
             End If
         Next
-        
+
+    End Sub
+    Private Sub lbSecurityTypes_KeyUp(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles lbSecurityTypes.KeyUp
+        If e.KeyCode <> Keys.Space Then Exit Sub
+        FilterSecurity()
+    End Sub
+
+    Private Sub lbSecurityTypes_MouseUp(ByVal sender As Object, ByVal e As System.Windows.Forms.MouseEventArgs) Handles lbSecurityTypes.MouseUp
+        FilterSecurity()
+    End Sub
+    Sub FilterSecurity()
+        If bInLoad = True Then Exit Sub
+        dsXML = dsOriginal.Copy
+
+        For item As Integer = 0 To lbSecurityTypes.Items.Count - 1
+            If lbSecurityTypes.GetItemChecked(item) = False Then
+                RemoveRecords(lbSecurityTypes.Items(item).ToString.Trim.ToUpper, "Placemark", "Security", dsXML, True)
+            End If
+        Next
+        dg.DataMember = "Placemark"
+        dg.DataSource = dsXML
+        dg.Update()
+        DrawGrid()
+        DrawStats()
     End Sub
 End Class
