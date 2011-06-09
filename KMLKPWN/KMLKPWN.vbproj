@@ -152,7 +152,6 @@
   <ItemGroup>
     <Content Include="GoogleKLM.ico" />
     <None Include="splash.jpg" />
-    <None Include="Resources\Splash.bmp" />
     <None Include="SSID.txt" />
     <None Include="Resources\SSID.txt" />
   </ItemGroup>

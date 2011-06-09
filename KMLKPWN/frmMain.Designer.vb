@@ -106,7 +106,7 @@ Partial Class frmMain
         Me.dg.ShowCellToolTips = False
         Me.dg.ShowEditingIcon = False
         Me.dg.ShowRowErrors = False
-        Me.dg.Size = New System.Drawing.Size(660, 398)
+        Me.dg.Size = New System.Drawing.Size(660, 308)
         Me.dg.TabIndex = 4
         '
         'OpenFileDialog1
@@ -209,10 +209,10 @@ Partial Class frmMain
         'wbDescription
         '
         Me.wbDescription.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.wbDescription.Location = New System.Drawing.Point(12, 416)
+        Me.wbDescription.Location = New System.Drawing.Point(12, 326)
         Me.wbDescription.MinimumSize = New System.Drawing.Size(20, 20)
         Me.wbDescription.Name = "wbDescription"
-        Me.wbDescription.Size = New System.Drawing.Size(307, 152)
+        Me.wbDescription.Size = New System.Drawing.Size(249, 238)
         Me.wbDescription.TabIndex = 11
         '
         'cData
@@ -223,13 +223,13 @@ Partial Class frmMain
         Me.cData.ChartAreas.Add(ChartArea1)
         Legend1.Name = "Legend1"
         Me.cData.Legends.Add(Legend1)
-        Me.cData.Location = New System.Drawing.Point(325, 416)
+        Me.cData.Location = New System.Drawing.Point(267, 326)
         Me.cData.Name = "cData"
         Series1.ChartArea = "ChartArea1"
         Series1.Legend = "Legend1"
         Series1.Name = "Series1"
         Me.cData.Series.Add(Series1)
-        Me.cData.Size = New System.Drawing.Size(347, 152)
+        Me.cData.Size = New System.Drawing.Size(405, 242)
         Me.cData.TabIndex = 12
         Me.cData.Text = "Wifi"
         '
@@ -238,12 +238,12 @@ Partial Class frmMain
         Me.lblStats.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblStats.Font = New System.Drawing.Font("Microsoft Sans Serif", 6.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblStats.Location = New System.Drawing.Point(687, 379)
+        Me.lblStats.Location = New System.Drawing.Point(678, 379)
         Me.lblStats.Multiline = True
         Me.lblStats.Name = "lblStats"
         Me.lblStats.ReadOnly = True
         Me.lblStats.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.lblStats.Size = New System.Drawing.Size(190, 189)
+        Me.lblStats.Size = New System.Drawing.Size(199, 189)
         Me.lblStats.TabIndex = 13
         Me.lblStats.WordWrap = False
         '
