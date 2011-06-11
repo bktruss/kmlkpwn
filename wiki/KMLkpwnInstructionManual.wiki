@@ -13,6 +13,7 @@ Its rather simple ...<br>
 Open kmlkpwn<br>
 Open your android wardrive kml file.<br>
 Magic stuff happens.<br>
+Start by removing any unwanted security types by clicking the options in the check box list.<br>
 You can click the column headings to sort the rows.<br>
 You can filter down to the top 1000 ssids using the provided buttons.<br>
     * Specific will remove exact ssid matches from the top 1000 ssids
