@@ -13,7 +13,8 @@ Its rather simple ...<br>
 Open kmlkpwn<br>
 Open your android wardrive kml file.<br>
 Magic stuff happens.<br>
-Start by removing any unwanted security types by clicking the options in the check box list.<br>
+Start by removing any unwanted security types by clicking the check boxes in the check box list.<br>
+You can open each record on openstreetmap.org by double clicking.<br>
 You can click the column headings to sort the rows.<br>
 You can filter down to the top 1000 ssids using the provided buttons.<br>
     * Specific will remove exact ssid matches from the top 1000 ssids
@@ -28,3 +29,5 @@ Now open it up in google earth and admire your beautiful data.<br>
 
 KMLkpwn only works with wardrive.<br>
 KMLkpwn only works with windows.<br>
+The graph displays the most popular types of security in your KML file.
+The text box at the bottom displays the currently selected record information.
