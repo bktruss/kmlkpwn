@@ -25,8 +25,10 @@ When you've finished filtering your KML file.<br>
 Click the save button and save your file.<br>
 Now open it up in google earth and admire your beautiful data.<br>
 
-= Notes =
+= Known bugs. =
+The file is loaded each time you change the network security type check boxes. So ensure you select which security types (WPA/WEP/etc) you wish to look at first before removing any additional networks. If you do it the other way round you'll loose any changes you made before changing the network security type.
 
+= Notes =
 KMLkpwn only works with wardrive.<br>
 KMLkpwn only works with windows.<br>
 The graph displays the most popular types of security in your KML file.<br>
