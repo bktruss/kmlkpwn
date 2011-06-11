@@ -7,3 +7,20 @@ All things good with KMLkpwn
 = Details =
 
 Good things will be listed here.
+
+Its rather simple too ... 
+Open kmlkpwn
+Open your android wardrive kml file.
+Magic stuff happens.
+You can click the column headings to sort the rows.
+You can filter down to the top 1000 ssids using the provided buttons.
+You can remove ssids by typing them in the box and clicking either remove containing or remove exact.
+    * Remove exact will look for exact ssid matches
+    * Remove containing will look for ssids that contain the filter string.
+
+
+
+= Notes =
+
+KMLkpwn only works with wardrive.
+KMLkpwn only works with windows.
