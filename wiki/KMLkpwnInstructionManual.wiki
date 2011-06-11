@@ -8,7 +8,7 @@ All things good with KMLkpwn
 
 Good things will be listed here.
 
-Its rather simple too ...<br>
+Its rather simple ...<br>
 Open kmlkpwn<br>
 Open your android wardrive kml file.<br>
 Magic stuff happens.<br>
