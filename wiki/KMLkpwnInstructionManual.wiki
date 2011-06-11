@@ -1,4 +1,5 @@
 #summary KMLkpwn instruction manual.
+#labels Featured
 
 = KMLkpwn instruction manual. =
 
