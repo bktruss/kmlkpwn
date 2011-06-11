@@ -14,11 +14,13 @@ Open your android wardrive kml file.<br>
 Magic stuff happens.<br>
 You can click the column headings to sort the rows.<br>
 You can filter down to the top 1000 ssids using the provided buttons.<br>
-You can remove ssids by typing them in the box and clicking either remove containing or remove exact.<br>
-    * Remove exact will look for exact ssid matches
-    * Remove containing will look for ssids that contain the filter string.
-
-
+    * Specific will remove exact ssid matches from the top 1000 ssids
+    * Containing will remove ssids that contain strings from the top 1000 ssids
+You can remove ssids by selecting them and clicking remove selected.<br>
+You can also type your own filter strings into the box and click remove to remove them. (looks for strings that contain the filter NB. Not exact matches.)<br>
+When you've finished filtering your KML file.<br>
+Click the save button and save your file.<br>
+Now open it up in google earth and admire your beautiful data.<br>
 
 = Notes =
 
