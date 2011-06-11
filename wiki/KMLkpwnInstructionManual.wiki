@@ -30,4 +30,4 @@ Now open it up in google earth and admire your beautiful data.<br>
 KMLkpwn only works with wardrive.<br>
 KMLkpwn only works with windows.<br>
 The graph displays the most popular types of security in your KML file.<br>
-The text box at the bottom displays the currently selected record information.<br>
+The text box at the bottom displays the current selected record information.<br>
