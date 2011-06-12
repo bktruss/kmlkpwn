@@ -17,8 +17,8 @@ Start by removing any unwanted security types by clicking the check boxes in the
 You can open each record on openstreetmap.org by double clicking.<br>
 You can click the column headings to sort the rows.<br>
 You can filter down to the top 1000 ssids using the provided buttons.<br>
-    * Specific will remove exact ssid matches from the top 1000 ssids
-    * Containing will remove ssids that contain strings from the top 1000 ssids
+    * Specific will filter to exact ssid matches from the top 1000 ssids
+    * Containing will filter ssids that contain strings from the top 1000 ssids
 You can remove ssids by selecting them and clicking remove selected.<br>
 You can also type your own filter strings into the box and click remove to remove them. (looks for strings that contain the filter NB. Not exact matches.)<br>
 When you've finished filtering your KML file.<br>
